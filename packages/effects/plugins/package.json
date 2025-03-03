@@ -18,6 +18,10 @@
       "types": "./src/echarts/index.ts",
       "default": "./src/echarts/index.ts"
     },
+    "./logic-flow": {
+      "types": "./src/logic-flow/index.ts",
+      "default": "./src/logic-flow/index.ts"
+    },
     "./vxe-table": {
       "types": "./src/vxe-table/index.ts",
       "default": "./src/vxe-table/index.ts"
@@ -28,6 +32,7 @@
     }
   },
   "dependencies": {
+    "@logicflow/core": "^2.0.11",
     "@vben-core/form-ui": "workspace:*",
     "@vben-core/shadcn-ui": "workspace:*",
     "@vben-core/shared": "workspace:*",
