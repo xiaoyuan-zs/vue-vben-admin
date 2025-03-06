@@ -1,11 +1,12 @@
+import type { LogicFlowEventCallback, LogicFlowEventName } from './types';
+
 import LogicFlow from '@logicflow/core';
 
 import '@logicflow/core/dist/style/index.css';
 
 class LogicFlowController {
   // 默认配置项
-  private static defaultOptions: LogicFlow.Options = {
-    container: document.querySelector('#app') as HTMLElement,
+  private static defaultOptions: Partial<LogicFlow.Options> = {
     // 仅浏览不可编辑模式，默认不开启
     isSilentMode: false,
     // 禁止缩放画布
@@ -26,6 +27,9 @@ class LogicFlowController {
       },
     },
   };
+  // 事件监听器
+  private eventListeners: Map<LogicFlowEventName, LogicFlowEventCallback[]> =
+    new Map();
   // LogicFlow 实例
   private lfInstance: LogicFlow | null = null;
 
@@ -34,6 +38,45 @@ class LogicFlowController {
     private options: Partial<LogicFlow.Options> = {},
   ) {
     this.init();
+  }
+
+  // 添加边
+  public addEdge(edgeData: LogicFlow.EdgeConfig) {
+    this.lfInstance?.addEdge(edgeData);
+  }
+
+  // 添加节点
+  public addNode(nodeData: LogicFlow.NodeConfig) {
+    this.lfInstance?.addNode(nodeData);
+  }
+
+  // 销毁实例
+  public destroy() {
+    this.eventListeners.forEach((callbacks, eventName) => {
+      callbacks.forEach((callback) => {
+        this.lfInstance?.off(eventName, callback);
+      });
+    });
+    this.lfInstance?.undo();
+    this.lfInstance = null;
+  }
+
+  // 删除事件监听
+  public off(eventName: LogicFlowEventName, callback: LogicFlowEventCallback) {
+    this.lfInstance?.off(eventName, callback);
+    const callbacks = this.eventListeners.get(eventName);
+    if (callbacks && callbacks.includes(callback)) {
+      callbacks.splice(callbacks.indexOf(callback), 1);
+    }
+  }
+
+  // 注册事件监听
+  public on(eventName: LogicFlowEventName, callback: LogicFlowEventCallback) {
+    this.lfInstance?.on(eventName, callback);
+    if (!this.eventListeners.has(eventName)) {
+      this.eventListeners.set(eventName, []);
+    }
+    this.eventListeners.get(eventName)?.push(callback);
   }
 
   private init() {
