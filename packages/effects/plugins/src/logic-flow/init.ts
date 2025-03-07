@@ -1,10 +1,11 @@
-import type { LFEventCallback, LFEventName } from './types';
+import type { LFCallbackArgs, LFEventCallback, LFEventName } from './types';
 
 import LogicFlow from '@logicflow/core';
 
-import '@logicflow/core/dist/index.css';
+import '@logicflow/core/lib/style/index.css';
+import '@logicflow/extension/lib/style/index.css';
 
-class LogicFlowController {
+export default class LogicFlowController {
   // 默认配置项
   private static defaultOptions: Partial<LogicFlow.Options> = {
     // 仅浏览不可编辑模式，默认不开启
@@ -39,16 +40,6 @@ class LogicFlowController {
     this.init();
   }
 
-  // 添加边
-  public addEdge(edgeData: LogicFlow.EdgeConfig) {
-    this.lfInstance?.addEdge(edgeData);
-  }
-
-  // 添加节点
-  public addNode(nodeData: LogicFlow.NodeConfig) {
-    this.lfInstance?.addNode(nodeData);
-  }
-
   // 销毁实例
   public destroy() {
     this.eventListeners.forEach((callbacks, eventName) => {
@@ -56,10 +47,22 @@ class LogicFlowController {
         this.lfInstance?.off(eventName, callback);
       });
     });
-    this.lfInstance?.undo();
+    this.lfInstance?.destroy();
     this.lfInstance = null;
   }
 
+  // 触发事件
+  public emit(eventName: LFEventName, data: LFCallbackArgs) {
+    this.lfInstance?.emit(eventName, data);
+  }
+
+  // 获取 LogicFlow 实例
+  public getLfInstance(): LogicFlow {
+    if (!this.lfInstance) {
+      throw new Error('LogicFlow instance is not found');
+    }
+    return this.lfInstance;
+  }
   // 删除事件监听
   public off(eventName: LFEventName, callback: LFEventCallback) {
     this.lfInstance?.off(eventName, callback);
@@ -78,6 +81,11 @@ class LogicFlowController {
     this.eventListeners.get(eventName)?.push(callback);
   }
 
+  // 注册一次性事件监听
+  public once(eventName: LFEventName, callback: LFEventCallback) {
+    this.lfInstance?.once(eventName, callback);
+  }
+
   private init() {
     // 校验容器元素是否存在
     if (!this.container) {
@@ -94,7 +102,6 @@ class LogicFlowController {
     // 创建并存储 LogicFlow 实例
     // 该实例将承载所有流程图操作和状态管理
     this.lfInstance = new LogicFlow(mergedOptions);
+    this.lfInstance.render({});
   }
 }
-
-export default LogicFlowController;
