@@ -1,4 +1,4 @@
-import type { LogicFlowEventCallback, LogicFlowEventName } from './types';
+import type { LFEventCallback, LFEventName } from './types';
 
 import LogicFlow from '@logicflow/core';
 
@@ -28,8 +28,7 @@ class LogicFlowController {
     },
   };
   // 事件监听器
-  private eventListeners: Map<LogicFlowEventName, LogicFlowEventCallback[]> =
-    new Map();
+  private eventListeners: Map<LFEventName, LFEventCallback[]> = new Map();
   // LogicFlow 实例
   private lfInstance: LogicFlow | null = null;
 
@@ -62,7 +61,7 @@ class LogicFlowController {
   }
 
   // 删除事件监听
-  public off(eventName: LogicFlowEventName, callback: LogicFlowEventCallback) {
+  public off(eventName: LFEventName, callback: LFEventCallback) {
     this.lfInstance?.off(eventName, callback);
     const callbacks = this.eventListeners.get(eventName);
     if (callbacks && callbacks.includes(callback)) {
@@ -71,7 +70,7 @@ class LogicFlowController {
   }
 
   // 注册事件监听
-  public on(eventName: LogicFlowEventName, callback: LogicFlowEventCallback) {
+  public on(eventName: LFEventName, callback: LFEventCallback) {
     this.lfInstance?.on(eventName, callback);
     if (!this.eventListeners.has(eventName)) {
       this.eventListeners.set(eventName, []);

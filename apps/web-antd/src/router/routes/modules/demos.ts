@@ -21,6 +21,14 @@ const routes: RouteRecordRaw[] = [
         path: '/demos/ant-design',
         component: () => import('#/views/demos/antd/index.vue'),
       },
+      {
+        meta: {
+          title: $t('demos.logic-flow'),
+        },
+        name: 'LogicFlowDemos',
+        path: '/demos/logic-flow',
+        component: () => import('#/views/demos/logic-flow/index.vue'),
+      },
     ],
   },
 ];
