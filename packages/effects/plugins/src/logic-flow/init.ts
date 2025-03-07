@@ -2,7 +2,7 @@ import type { LFEventCallback, LFEventName } from './types';
 
 import LogicFlow from '@logicflow/core';
 
-import '@logicflow/core/dist/style/index.css';
+import '@logicflow/core/dist/index.css';
 
 class LogicFlowController {
   // 默认配置项
