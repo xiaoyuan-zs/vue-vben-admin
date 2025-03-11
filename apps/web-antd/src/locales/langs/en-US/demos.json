@@ -4,5 +4,9 @@
   "logic-flow": "Logic Flow",
   "vben": {
     "about": "About"
+  },
+  "components": {
+    "carousel": "3DCarousel",
+    "photo-wall": "Photo Wall"
   }
 }

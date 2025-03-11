@@ -15,11 +15,19 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         meta: {
-          title: $t('3DCarousel'),
+          title: $t('demos.components.carousel'),
         },
         name: '3DCarousel',
-        path: '/components/3dCarousel',
+        path: '/components/3d-carousel',
         component: () => import('#/views/components/3d-carousel/index.vue'),
+      },
+      {
+        meta: {
+          title: $t('demos.components.photo-wall'),
+        },
+        name: 'PhotoWall',
+        path: '/components/photo-wall',
+        component: () => import('#/views/components/photo-wall/index.vue'),
       },
     ],
   },

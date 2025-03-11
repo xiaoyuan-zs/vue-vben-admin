@@ -82,7 +82,7 @@ onMounted(() => {
 
 <template>
   <Page title="3D Gradient Carousel Image" description="3D 渐变轮播图">
-    <div class="h-[400px] w-full bg-slate-500">
+    <div class="h-[400px] w-full">
       <div
         ref="image"
         class="relative flex h-full w-full items-center justify-center overflow-hidden"
@@ -91,6 +91,11 @@ onMounted(() => {
           v-for="(item, i) in imageList"
           :key="i"
           class="absolute transition-all duration-1000"
+          :class="[
+            {
+              'cursor-pointer': i !== currIndex && Math.abs(i - currIndex) <= 2,
+            },
+          ]"
           @click="changeLayout(i)"
         >
           <img :src="item" alt="image" />
