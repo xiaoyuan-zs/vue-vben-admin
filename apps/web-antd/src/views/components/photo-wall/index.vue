@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, useTemplateRef } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
@@ -7,9 +7,7 @@ defineOptions({
   name: 'PhotoWall',
 });
 
-const imageRef = useTemplateRef<HTMLDivElement>('image');
-
-const imageList = ref<string[]>([
+const imageOptions = ref<string[]>([
   'https://fastly.picsum.photos/id/848/400/300.jpg?hmac=mG-uf7YDQEwO82Xj5fhefIh-w3guMMWczQuFe2pkPmg',
   'https://fastly.picsum.photos/id/730/400/300.jpg?hmac=VqQ5v1Equ7_Rse5_1LBMorKD5TDwLYqglXi6OYiM4iw',
   'https://fastly.picsum.photos/id/549/400/300.jpg?hmac=FNY52ReiLVnPOtIEEgcTC8iCCk39Iynw51HoLGTEoeA',
@@ -22,29 +20,41 @@ const imageList = ref<string[]>([
   'https://fastly.picsum.photos/id/941/400/300.jpg?hmac=DkEhVmulG4vO6-JlT2fdfd_RkQ66O4FRMiiFg83EB2s',
 ]);
 
-const allNodes = ref<HTMLElement[]>();
-
-const doLayout = () => {};
-
-onMounted(() => {
-  nextTick(() => {
-    allNodes.value = imageRef.value?.children! as unknown as HTMLElement[];
-    doLayout();
-  });
-});
+onMounted(() => {});
 </script>
 
 <template>
   <Page title="Photo Wall" description="照片墙">
     <div class="h-[400px] w-full">
       <div
-        ref="image"
-        class="relative flex h-full w-full items-center justify-center overflow-hidden"
+        class="perspective-1000 relative flex h-full w-full items-center justify-center overflow-hidden"
       >
-        <div v-for="(item, i) in imageList" :key="i" class="absolute">
+        <div
+          v-for="(item, i) in imageOptions"
+          :key="i"
+          class="photo-item transform-3d absolute cursor-pointer"
+        >
           <img :src="item" alt="image" />
         </div>
       </div>
     </div>
   </Page>
 </template>
+
+<style lang="scss" scoped>
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+.photo-item {
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      transform: translate3d(0, 0, 500px);
+    }
+  }
+}
+</style>

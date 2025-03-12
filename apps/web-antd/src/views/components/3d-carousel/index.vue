@@ -39,9 +39,9 @@ const allNodes = ref<HTMLElement[]>();
 
 const doLayout = () => {
   const count = allNodes.value?.length || 0;
-  const xoffsetStep = 120;
+  const xoffsetStep = 100;
   const opacityStep = 0.8;
-  const scaleStep = 0.8;
+  const scaleStep = 0.7;
   [...(allNodes.value || [])].forEach((node, i) => {
     const sign = Math.sign(i - currIndex.value);
     const absIndex = Math.abs(i - currIndex.value);
@@ -85,17 +85,12 @@ onMounted(() => {
     <div class="h-[400px] w-full">
       <div
         ref="image"
-        class="relative flex h-full w-full items-center justify-center overflow-hidden"
+        class="perspective-1000 relative flex h-full w-full items-center justify-center"
       >
         <div
           v-for="(item, i) in imageList"
           :key="i"
-          class="absolute transition-all duration-1000"
-          :class="[
-            {
-              'cursor-pointer': i !== currIndex && Math.abs(i - currIndex) <= 2,
-            },
-          ]"
+          class="transform-3d absolute cursor-pointer transition-all duration-500"
           @click="changeLayout(i)"
         >
           <img :src="item" alt="image" />
@@ -104,3 +99,13 @@ onMounted(() => {
     </div>
   </Page>
 </template>
+
+<style lang="scss" scoped>
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+}
+</style>
