@@ -17,9 +17,9 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: $t('demos.components.carousel'),
         },
-        name: '3DCarousel',
-        path: '/components/3d-carousel',
-        component: () => import('#/views/components/3d-carousel/index.vue'),
+        name: 'Carousel',
+        path: '/components/carousel',
+        component: () => import('#/views/components/carousel/index.vue'),
       },
       {
         meta: {

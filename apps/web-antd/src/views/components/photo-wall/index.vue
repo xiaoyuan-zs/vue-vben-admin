@@ -3,21 +3,23 @@ import { onMounted, ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
+import { Card } from 'ant-design-vue';
+
 defineOptions({
   name: 'PhotoWall',
 });
 
 const imageOptions = ref<string[]>([
-  'https://fastly.picsum.photos/id/848/400/300.jpg?hmac=mG-uf7YDQEwO82Xj5fhefIh-w3guMMWczQuFe2pkPmg',
-  'https://fastly.picsum.photos/id/730/400/300.jpg?hmac=VqQ5v1Equ7_Rse5_1LBMorKD5TDwLYqglXi6OYiM4iw',
-  'https://fastly.picsum.photos/id/549/400/300.jpg?hmac=FNY52ReiLVnPOtIEEgcTC8iCCk39Iynw51HoLGTEoeA',
-  'https://fastly.picsum.photos/id/55/400/300.jpg?hmac=6T8pgXR5llvY6WariKAHbWIelF2kWo8YLI3VQA1VKKs',
-  'https://fastly.picsum.photos/id/807/400/300.jpg?hmac=NEYs7ynsTXAQfb-aBGs_w0qsZKLabhUdXOSZNNu-xe4',
-  'https://fastly.picsum.photos/id/0/400/300.jpg?hmac=3GLjdyFCa4J9IRTNBFrRvKPVypLY3mEKGKNQjlBfEm8',
-  'https://fastly.picsum.photos/id/935/400/300.jpg?hmac=LftEg2ViqqSFEov5aIdXpS9TO3sZcG_nlxO3J4U0Y7A',
-  'https://fastly.picsum.photos/id/183/400/300.jpg?hmac=jNcG8FmErIoJmKIhs8Cg_ReK89nhNX03MbSnxVAjfU0',
-  'https://fastly.picsum.photos/id/160/400/300.jpg?hmac=VxN2GZ31vusv0eqx8tAFK7_GhONbWhTg_O3gOzRVhr8',
-  'https://fastly.picsum.photos/id/941/400/300.jpg?hmac=DkEhVmulG4vO6-JlT2fdfd_RkQ66O4FRMiiFg83EB2s',
+  'https://fastly.picsum.photos/id/388/200/100.jpg?hmac=5RHpMgnEUYRuK1ZUCsT9ArYzmCbFxPzKoeu7zp1CDeQ',
+  'https://fastly.picsum.photos/id/853/200/100.jpg?hmac=PucPwjq5nPCH9HZWl5m9RBBxpRpiA0jiQJwMeBvCrfc',
+  'https://fastly.picsum.photos/id/672/200/100.jpg?hmac=YKAuwDxxkyqv5-8weod9HdKgkM20T6gbCqmW4K0RWZk',
+  'https://fastly.picsum.photos/id/687/200/100.jpg?hmac=myH-TJRqOqAZNKsxgn7nACDutcsdQdtCB9f3S1r0rFQ',
+  'https://fastly.picsum.photos/id/313/200/100.jpg?hmac=kTCNKJGtRi-E_-0Z76_oaj3re_RhTmP_NNXoGpBjLPM',
+  'https://fastly.picsum.photos/id/129/200/100.jpg?hmac=4hd_Uxj2sYiBU5NUG7xcMLqw8G1mWHe4D1uydLAZNY8',
+  'https://fastly.picsum.photos/id/282/200/100.jpg?hmac=bREvKNm3U8MnzG7FkoAr7ZzLuH5XxiSz5tNa5eyTgAI',
+  'https://fastly.picsum.photos/id/180/200/100.jpg?hmac=HP1yIeNSs1RqZ_5G12-z1nvnmk3erzdNF11vMD3HIPA',
+  'https://fastly.picsum.photos/id/692/200/100.jpg?hmac=dbhoa6O-ULd_2ErCaKOZaIEjpost3YB39ls98qfU2Eg',
+  'https://fastly.picsum.photos/id/687/200/100.jpg?hmac=myH-TJRqOqAZNKsxgn7nACDutcsdQdtCB9f3S1r0rFQ',
 ]);
 
 onMounted(() => {});
@@ -25,35 +27,83 @@ onMounted(() => {});
 
 <template>
   <Page title="Photo Wall" description="照片墙">
-    <div class="h-[400px] w-full">
-      <div
-        class="perspective-1000 relative flex h-full w-full items-center justify-center overflow-hidden"
-      >
+    <Card class="mb-5" title="旋转照片墙">
+      <div class="flex h-[300px] w-full justify-center">
         <div
-          v-for="(item, i) in imageOptions"
-          :key="i"
-          class="photo-item transform-3d absolute cursor-pointer"
+          class="rotate-animation rotate-transform-3d relative mt-20 h-[100px] w-[200px]"
         >
-          <img :src="item" alt="image" />
+          <div
+            v-for="(item, i) in imageOptions"
+            :key="i"
+            class="rotate-photo-item absolute"
+          >
+            <img :src="item" alt="image" />
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
+    <Card class="mb-5" title="围绕照片墙">
+      <div class="flex h-[300px] w-full justify-center">
+        <div
+          class="rotate-animation rotate-transform-3d relative mt-20 h-[100px] w-[200px]"
+        >
+          <div
+            v-for="(item, i) in imageOptions"
+            :key="i"
+            class="rotate-photo-item absolute"
+          >
+            <img :src="item" alt="image" />
+          </div>
+        </div>
+      </div>
+    </Card>
   </Page>
 </template>
 
 <style lang="scss" scoped>
-.perspective-1000 {
-  perspective: 1000px;
+@keyframes rotate {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
 }
 
-.transform-3d {
-  transform-style: preserve-3d;
-}
+// 旋转轮播图样式
+.rotate-animation {
+  animation: rotate 25s linear infinite;
 
-.photo-item {
-  @for $i from 1 through 10 {
-    &:nth-child(#{$i}) {
-      transform: translate3d(0, 0, 500px);
+  &:hover {
+    cursor: pointer;
+    animation-play-state: paused;
+  }
+
+  &.rotate-transform-3d {
+    transform-style: preserve-3d;
+  }
+
+  .rotate-photo-item {
+    $r: 350px;
+    $n: 10;
+    $pDeg: calc(360deg / $n);
+
+    @for $i from 1 through $n {
+      &:nth-child(#{$i}) {
+        transform: rotateY(calc(($i - 1) * $pDeg)) translate3d(0, 0, -$r);
+      }
+    }
+
+    // 非标准属性 -webkit-box-reflect 用于设置倒影效果
+    // 建议改用 CSS 伪元素 + transform 模拟倒影效果。
+    -webkit-box-reflect: below 10px
+      linear-gradient(transparent 10%, rgb(255 255 255 / 30%) 90%);
+    // 背部不可见
+    // backface-visibility: hidden;
+
+    & img {
+      transform: rotateY(-180deg);
     }
   }
 }

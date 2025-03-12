@@ -3,8 +3,10 @@ import { nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
+import { Card } from 'ant-design-vue';
+
 defineOptions({
-  name: '3DGradientCarouselImage',
+  name: 'CarouselImage',
 });
 
 const imageRef = useTemplateRef<HTMLDivElement>('image');
@@ -81,22 +83,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <Page title="3D Gradient Carousel Image" description="3D 渐变轮播图">
-    <div class="h-[400px] w-full">
-      <div
-        ref="image"
-        class="perspective-1000 relative flex h-full w-full items-center justify-center"
-      >
+  <Page title="Carousel Image" description="轮播图">
+    <Card class="mb-5" title="3D 渐变轮播图">
+      <div class="h-[300px] w-full">
         <div
-          v-for="(item, i) in imageList"
-          :key="i"
-          class="transform-3d absolute cursor-pointer transition-all duration-500"
-          @click="changeLayout(i)"
+          ref="image"
+          class="perspective-1000 relative flex h-full w-full items-center justify-center"
         >
-          <img :src="item" alt="image" />
+          <div
+            v-for="(item, i) in imageList"
+            :key="i"
+            class="transform-3d absolute cursor-pointer transition-all duration-500"
+            @click="changeLayout(i)"
+          >
+            <img :src="item" alt="image" />
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
   </Page>
 </template>
 

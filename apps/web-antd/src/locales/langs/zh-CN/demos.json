@@ -6,7 +6,7 @@
     "about": "关于"
   },
   "components": {
-    "carousel": "3D渐变轮播图",
+    "carousel": "轮播图",
     "photo-wall": "照片墙"
   }
 }
