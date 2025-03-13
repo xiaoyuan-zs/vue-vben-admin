@@ -28,7 +28,7 @@ onMounted(() => {});
 <template>
   <Page title="Photo Wall" description="照片墙">
     <Card class="mb-5" title="旋转照片墙">
-      <div class="flex h-[300px] w-full justify-center">
+      <div class="perspective-2000 flex h-[300px] w-full justify-center">
         <div
           class="rotate-animation rotate-transform-3d relative mt-20 h-[100px] w-[200px]"
         >
@@ -43,14 +43,14 @@ onMounted(() => {});
       </div>
     </Card>
     <Card class="mb-5" title="围绕照片墙">
-      <div class="flex h-[300px] w-full justify-center">
+      <div class="perspective-2000 flex h-[300px] w-full justify-center">
         <div
-          class="rotate-animation rotate-transform-3d relative mt-20 h-[100px] w-[200px]"
+          class="around-animation around-transform-3d relative mt-20 h-[100px] w-[200px]"
         >
           <div
             v-for="(item, i) in imageOptions"
             :key="i"
-            class="rotate-photo-item absolute"
+            class="around-photo-item absolute"
           >
             <img :src="item" alt="image" />
           </div>
@@ -69,6 +69,10 @@ onMounted(() => {});
   to {
     transform: rotateY(360deg);
   }
+}
+
+.perspective-2000 {
+  perspective: 2000px;
 }
 
 // 旋转轮播图样式
@@ -105,6 +109,42 @@ onMounted(() => {});
     & img {
       transform: rotateY(-180deg);
     }
+  }
+}
+
+// 围绕轮播图样式
+.around-animation {
+  animation: rotate 25s linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  &.around-transform-3d {
+    transform-style: preserve-3d;
+  }
+
+  .around-photo-item {
+    $r: 350px;
+    $n: 10;
+    $pDeg: calc(360deg / $n);
+
+    @for $i from 1 through $n {
+      &:nth-child(#{$i}) {
+        opacity: 0.5;
+        transition: opacity 0.5s ease-in-out;
+        transform: rotateY(calc(($i - 1) * $pDeg)) translate3d(0, 0, -$r);
+
+        &:hover {
+          cursor: pointer;
+          opacity: 1;
+        }
+      }
+    }
+
+    -webkit-box-reflect: below 10px
+      linear-gradient(transparent 10%, rgb(255 255 255 / 30%) 90%);
+    backface-visibility: hidden;
   }
 }
 </style>
